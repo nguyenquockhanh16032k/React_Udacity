@@ -1,68 +1,53 @@
-import { useState } from "react";
-import "../css/searchComponent.css";
-import { search } from "../utils/BooksAPI";
-import { useNavigate } from "react-router-dom";
-import { BookShelf } from "./bookShelf";
+import React, { useState } from 'react';
+import { Link } from 'react-router-dom';
+import '../css/searchComponent.css';
+import { search } from '../utils/BooksAPI';
+import { BookShelfComponent } from './bookShelfComponent';
 
-export function Search({ allBooks, updateShelf }) {
-    const [dataSearched, setDataSearched] = useState([]);
-    const [time, setTime] = useState();
-    let navigate = useNavigate();
-    const handleSearch = (event) => {
-        if (time) {
-            const timeOut = clearTimeout(time);
-            setTime(timeOut)
-        }
-        const timeOut = setTimeout(() => {
-            if (event.target.value.length > 0) {
-                search(event.target.value, 50).then(data => {
-                    if (data?.error) {
-                        setDataSearched([]);
-                    } else {
-                        if (data) {
-                            setDataSearched(data);
-                        } else {
-                            setDataSearched([]);
+export function Search({ updateShelf, allBooks }) {
+    const [query, setQuery] = useState('');
+    const [searchedBooks, setSearchedBooks] = useState([]);
+
+    const handleSearch = (query) => {
+        setQuery(query);
+        if (query.trim()) {
+            search(query).then((books) => {
+                if (books && !books.error) {
+                    const updatedBooks = books.map((book) => {
+                        const existingBook = allBooks.find((b) => b.id === book.id);
+                        if (existingBook) {
+                            book.shelf = existingBook.shelf;
                         }
-                    }
-                })
-            } else {
-                setDataSearched([]);
-            }
-        }, 1000)
-        setTime(timeOut);
-    }
-
-    const backToMain = () => {
-        navigate("/")
-    }
+                        return book;
+                    });
+                    setSearchedBooks(updatedBooks);
+                } else {
+                    setSearchedBooks([]);
+                }
+            });
+        } else {
+            setSearchedBooks([]);
+        }
+    };
 
     return (
         <div className="search-books">
             <div className="search-books-bar">
-                <button
-                    className="close-search"
-                    onClick={() => backToMain()}
-                >
+                <Link to="/" className="close-search">
                     Close
-                </button>
+                </Link>
                 <div className="search-books-input-wrapper">
                     <input
                         type="text"
-                        placeholder="Search by title, author, or ISBN"
-                        onChange={handleSearch}
+                        placeholder="Search by title or author"
+                        value={query}
+                        onChange={(event) => handleSearch(event.target.value)}
                     />
                 </div>
             </div>
             <div className="search-books-results">
-                <ol className="books-grid">
-                    {dataSearched.map(book => (
-                        <li key={book.id}>
-                            <BookShelf book={allBooks.find(item => item.id === book.id) ?? book} updateShelf={updateShelf} />
-                        </li>
-                    ))}
-                </ol>
+                <BookShelfComponent allBooks={searchedBooks} shelf="search" updateShelf={updateShelf} />
             </div>
         </div>
-    )
+    );
 }

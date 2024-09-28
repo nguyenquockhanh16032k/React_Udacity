@@ -1,69 +1,50 @@
 import "../css/App.css";
-import { BookShelfComponent } from "./bookShelfComponent";
-import { getAll, update } from "../utils/BooksAPI";
 import { useEffect, useState } from "react";
 import { Route, Routes, useNavigate } from "react-router-dom";
+import { getAll, update } from "../utils/BooksAPI";
+import BookShelf from "./bookShelf";
 import { Search } from "./searchComponent";
+import Header from "./header";
 
 function App() {
   const [allBooks, setAllBooks] = useState([]);
-  let navigate = useNavigate();
+  const navigate = useNavigate();
+
   useEffect(() => {
     getAll().then(data => {
       setAllBooks(data);
-    })
-  }, [])
+    });
+  }, []);
 
   const updateShelf = (book, event) => {
-    update(book, event.target.value).then(_ => {
+    update(book, event.target.value).then(() => {
       getAll().then(data => {
         setAllBooks(data);
-      })
-    })
-  }
+      });
+    });
+  };
 
-  const clickOpenSearch = () => {
-    navigate("/search")
-  }
+  const OpenSearchOnClick = () => {
+    navigate("/search");
+  };
+
   return (
     <Routes>
       <Route
         path="/"
         element={
           <div className="app">
-            <div className="list-books">
-              <div className="list-books-title">
-                <h1>MyReads</h1>
-              </div>
-              <div className="list-books-content">
-                <div>
-                  <div className="bookshelf">
-                    <h2 className="bookshelf-title">Currently Reading</h2>
-                    <BookShelfComponent allBooks={allBooks} shelf={'currentlyReading'} updateShelf={updateShelf} />
-                  </div>
-                  <div className="bookshelf">
-                    <h2 className="bookshelf-title">Want to Read</h2>
-                    <BookShelfComponent allBooks={allBooks} shelf={'wantToRead'} updateShelf={updateShelf} />
-                  </div>
-                  <div className="bookshelf">
-                    <h2 className="bookshelf-title">Read</h2>
-                    <BookShelfComponent allBooks={allBooks} shelf={'read'} updateShelf={updateShelf} />
-                  </div>
-                </div>
-              </div>
-              <div className="open-search">
-                <button onClick={clickOpenSearch}>Add a book</button>
-              </div>
+            <Header />
+            <BookShelf allBooks={allBooks} updateShelf={updateShelf} />
+            <div className="open-search">
+              <button onClick={OpenSearchOnClick}>Add a book</button>
             </div>
           </div>
         }
       />
-
       <Route
         path="/search"
-        element={
-          <Search updateShelf={updateShelf} allBooks={allBooks} />
-        }
+        element={<Search updateShelf={updateShelf} allBooks={allBooks} />}
       />
     </Routes>
   );

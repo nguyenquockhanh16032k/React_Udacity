@@ -1,52 +1,42 @@
-import "../css/bookShelf.css"
+// src/components/BookShelf.js
 
-export function BookShelf({ book, updateShelf }) {
-    const shelfs = [
-        {
-            value: 'currentlyReading',
-            content: 'Currently Reading'
-        },
-        {
-            value: 'wantToRead',
-            content: 'Want to Read'
-        },
-        {
-            value: 'read',
-            content: 'Read'
-        },
-        {
-            value: 'none',
-            content: 'None'
-        }
-    ];
+import React from 'react';
+import { BookShelfComponent } from './bookShelfComponent';
+import '../css/bookShelf.css';
 
+function BookShelf({ allBooks, updateShelf }) {
     return (
-        <div className="book">
-            <div className="book-top">
-                <div
-                    className="book-cover"
-                    style={{
-                        width: 128,
-                        height: 193,
-                        backgroundImage:
-                            `url("${book.imageLinks ? book.imageLinks.thumbnail : ''}")`,
-                    }}
-                ></div>
-                <div className="book-shelf-changer">
-                    <select defaultValue={book.shelf ? book.shelf : 'none'} onChange={(event) => updateShelf(book, event)}>
-                        <option value="" disabled>
-                            Move to...
-                        </option>
-                        {shelfs.map(val => (
-                            <option key={val.value} value={val.value}>
-                                {val.content}
-                            </option>
-                        ))}
-                    </select>
+        <div className="list-books">
+            <div className="list-books-content">
+                <div>
+                    <div className="bookshelf">
+                        <h2 className="bookshelf-title">Currently Reading</h2>
+                        <BookShelfComponent
+                            allBooks={allBooks}
+                            shelf="currentlyReading"
+                            updateShelf={updateShelf}
+                        />
+                    </div>
+                    <div className="bookshelf">
+                        <h2 className="bookshelf-title">Want to Read</h2>
+                        <BookShelfComponent
+                            allBooks={allBooks}
+                            shelf="wantToRead"
+                            updateShelf={updateShelf}
+                        />
+                    </div>
+                    <div className="bookshelf">
+                        <h2 className="bookshelf-title">Read</h2>
+                        <BookShelfComponent
+                            allBooks={allBooks}
+                            shelf="read"
+                            updateShelf={updateShelf}
+                        />
+                    </div>
                 </div>
             </div>
-            <div className="book-title">{book.title}</div>
-            <div className="book-authors">{book.authors && book.authors.length >= 1 ? book.authors.join() : ''}</div>
         </div>
-    )
+    );
 }
+
+export default BookShelf;
