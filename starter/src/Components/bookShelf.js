@@ -1,6 +1,6 @@
-import "../css/book.css"
+import "../css/bookShelf.css"
 
-export function Book({ book, updateShelf }) {
+export function BookShelf({ book, updateShelf }) {
     const shelfs = [
         {
             value: 'currentlyReading',

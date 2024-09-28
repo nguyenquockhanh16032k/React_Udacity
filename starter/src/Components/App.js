@@ -7,7 +7,6 @@ import { Search } from "./searchComponent";
 
 function App() {
   const [allBooks, setAllBooks] = useState([]);
-  // const [test, setTest] = useState('hello')
   let navigate = useNavigate();
   useEffect(() => {
     getAll().then(data => {
@@ -67,7 +66,6 @@ function App() {
         }
       />
     </Routes>
-
   );
 }
 

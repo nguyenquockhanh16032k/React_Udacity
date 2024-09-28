@@ -1,6 +1,12 @@
 # MyReads Project
 
-This application containing bookshelfs, that allows you to select and categorize books you have reads, currently reading or want to read
+The MyReads application provides a personalized virtual bookshelf where users can manage their reading preferences. Users can categorize books into three main shelves:
+
+    - Currently Reading: Books that the user is currently reading.
+    - Want to Read: Books that the user intends to read in the future.
+    - Read: Books that the user has already finished reading.
+
+The application allows users to search for new books and add them to any of these categories, facilitating an organized and interactive reading experience.
 
 ## TL;DR
 
@@ -13,6 +19,7 @@ To get started developing right away:
 ## What You're Getting
 
 ```bash
+├── README.md - This file.
 ├── package.json                  # npm package manager file. It's unlikely that you'll need to modify this.
 ├── public                        # Public directory containing static files
 │   ├── favicon.ico               # React Icon, you may change it if you wish.
@@ -39,6 +46,8 @@ To get started developing right away:
 ```
 
 ## Backend Server
+
+To simplify your development process, we've provided a backend server for you to interact with. The provided file [`BooksAPI.js`](src/BooksAPI.js) contains the methods you need to perform operations on the backend. Below are the methods available:
 
 To simplify your development process, we've provided a backend server for you to develop against. The provided file [`BooksAPI.js`](src/BooksAPI.js) contains the methods you will need to perform necessary operations on the backend:
 

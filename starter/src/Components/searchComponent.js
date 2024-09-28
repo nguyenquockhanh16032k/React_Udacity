@@ -2,7 +2,7 @@ import { useState } from "react";
 import "../css/searchComponent.css";
 import { search } from "../utils/BooksAPI";
 import { useNavigate } from "react-router-dom";
-import { Book } from "./book";
+import { BookShelf } from "./bookShelf";
 
 export function Search({ allBooks, updateShelf }) {
     const [dataSearched, setDataSearched] = useState([]);
@@ -58,7 +58,7 @@ export function Search({ allBooks, updateShelf }) {
                 <ol className="books-grid">
                     {dataSearched.map(book => (
                         <li key={book.id}>
-                            <Book book={allBooks.find(item => item.id === book.id) ?? book} updateShelf={updateShelf} />
+                            <BookShelf book={allBooks.find(item => item.id === book.id) ?? book} updateShelf={updateShelf} />
                         </li>
                     ))}
                 </ol>

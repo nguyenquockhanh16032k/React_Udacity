@@ -1,5 +1,5 @@
 import "../css/bookShelfComponent.css";
-import { Book } from "./book";
+import { BookShelf } from "./bookShelf";
 
 export function BookShelfComponent({ allBooks, shelf, updateShelf }) {
     return (
@@ -7,7 +7,7 @@ export function BookShelfComponent({ allBooks, shelf, updateShelf }) {
             <ol className="books-grid">
                 {allBooks.filter(item => item.shelf === shelf).map(book => (
                     <li key={book.id}>
-                        <Book book={book} updateShelf={updateShelf} />
+                        <BookShelf book={book} updateShelf={updateShelf} />
                     </li>
                 ))}
             </ol>
